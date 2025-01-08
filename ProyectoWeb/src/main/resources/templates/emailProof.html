@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de tu Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .email-header {
+            position: relative;
+            width: 100%;
+            height: 150px;
+        }
+        .email-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .email-body {
+            padding: 20px;
+            text-align: center;
+        }
+        .email-body h3 {
+            color: #333333;
+        }
+        .email-body p {
+            color: #555555;
+        }
+        .invoice-details {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #dddddd;
+            text-align: left;
+        }
+        .invoice-details p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #444444;
+        }
+        .email-footer {
+            padding: 10px;
+            text-align: center;
+            background-color: #f4f4f4;
+            font-size: 12px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header con el logo -->
+    <div class="email-header">
+        <img src="https://recort1.s3.sa-east-1.amazonaws.com/logo_recort.jpg" alt="Multiservicios Recort">
+    </div>
+
+    <!-- Cuerpo del correo -->
+    <div class="email-body">
+        <h3 th:text="${subject}"></h3>
+        <p>Hola, <strong th:text="${client}"></strong></p>
+        <p th:if="${state == 'Pagado'}">¡Gracias por tu pago! Confirmamos que tu factura ha sido registrada como pagada.</p>
+        <p th:if="${state == 'Cancelado'}">Lamentamos informarte que tu factura ha sido cancelada. Si tienes dudas, contáctanos para más detalles.</p>
+
+        <div class="invoice-details">
+            <h4>Detalles de la factura:</h4>
+            <p><strong>Servicio:</strong> <span th:text="${service}"></span></p>
+            <p><strong>Descripción:</strong> <span th:text="${description}"></span></p>
+            <p><strong>Monto:</strong> S/ <span th:text="${amount}"></span></p>
+            <p><strong>Fecha de emisión:</strong> <span th:text="${issueDate}"></span></p>
+            <p th:if="${state == 'Pagado'}"><strong>Fecha de pago:</strong> <span th:text="${paymentDate}"></span></p>
+            <p th:if="${state == 'Cancelado'}"><strong>Razón de cancelación:</strong> <span th:text="${cancellationReason}"></span></p>
+        </div>
+
+        <p><small>Fecha y hora: <span th:text="${dateTime}"></span></small></p>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="email-footer">
+        <p>© 2024 Multiservicios Recort. Todos los derechos reservados.</p>
+    </div>
+</div>
+</body>
+</html>
